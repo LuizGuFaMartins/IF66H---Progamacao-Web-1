@@ -1,4 +1,5 @@
 @import url('./shared/styles/global.css');
+@import url('../shared/styles/components.css');
 
 .header {
     background-color: #8FE1D9 !important;

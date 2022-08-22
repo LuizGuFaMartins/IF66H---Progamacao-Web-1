@@ -1,23 +1,54 @@
 @import url('./shared/styles/global.css');
+@import url('../shared/styles/components.css');
 
 .background-container {
     width: 100%;
     height: calc(100% - 87px);
-    background-image: url('./assets/initial_background.jpg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100%;
+    background-color: var(--background-color);
 }
 
-.backgorund-blur {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.5);
+.form {
+    width: 48%;
     flex-direction: column;
-
 }
 
-backgorund-blur h1 {
-    color: #419ED7;
-    margin-bottom: 20px;
+.input-box {
+    font-size: 28px;
+    color: var(--primary-font-color);
+    display: flex;
+    justify-content: right;
+}
+
+.input-box p{
+    height: 45px;
+}
+
+.input {
+    width: 500px;
+    max-width: 70%;
+    height: 45px;
+    color: var(--input-font-color);
+    margin: 0;
+    padding: 0;
+    padding: 0 10px;
+    margin-left: 10px;
+    border: 0;
+}
+
+.input:focus{
+    outline: 0;
+}
+
+.input-radio{
+    width: 500px;
+    margin-left: 10px;
+}
+
+.register-box{
+    width: 100%;
+    height: 100px;
+}
+
+.register-button{
+    padding: 10px 30px;
 }
