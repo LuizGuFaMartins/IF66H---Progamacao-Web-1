@@ -1,0 +1,53 @@
+@import url('./shared/styles/global.css');
+@import url('../shared/styles/components.css');
+
+.background-container {
+    width: 100%;
+    height: calc(100% - 87px);
+    background-color: var(--background-color);
+}
+
+.form {
+    width: 700px;
+    flex-direction: column;
+}
+
+.input-box {
+    font-size: 28px;
+    color: var(--primary-font-color);
+    display: flex;
+    justify-content: right;
+}
+
+.input-box p{
+    height: 45px;
+}
+
+.input {
+    width: 600px;
+    height: 45px;
+    color: var(--input-font-color);
+    margin: 0;
+    padding: 0;
+    padding: 0 10px;
+    margin-left: 10px;
+    border: 0;
+}
+
+.input:focus{
+    outline: 0;
+}
+
+.input-radio{
+    width: 500px;
+    margin-left: 10px;
+}
+
+.register-box{
+    width: 100%;
+    height: 100px;
+}
+
+.register-button{
+    padding: 10px 30px;
+}
