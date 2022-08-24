@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="../assets/icon-vaccine.jpg"/>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -11,29 +12,71 @@
       crossorigin="anonymous"
     />
     <link href="./styles.css" rel="stylesheet" />
-    <link href="./shared/styles/header.css" rel="stylesheet" />
-
-    <title>Document</title>
+    <title>MyHealth | Nova conta</title>
   </head>
   <body>
-    <header class="header d-flex justify-content-between">
+    <header class="header d-flex justify-content-lg-start">
       <div class="flex-center">
         <div class="icon"></div>
         <p>MyHealth</p>
       </div>
-      <div class="flex-center">
-        <button type="button" class="btn btn-primary">Já tenho conta</button>
-      </div>
     </header>
-    <section class="background-container">
-      <div class="backgorund-blur flex-center">
-        <h1>Controle as suas vacinas e fique seguro</h1>
-        <a href="./create-account"
-          ><button type="button" class="btn btn-primary">
-            Criar minha conta
-          </button></a
-        >
-      </div>
+    <section class="background-container flex-center">
+      <form class="form">
+        <div class="input-box">
+          <p>Nome Completo</p>
+          <input type="text" id="name" class="input" />
+        </div>
+        <div class="input-box">
+          <p>Sexo</p>
+          <div class="input-radio">
+            <label for="html"
+              ><input
+                type="radio"
+                id="sex"
+                name="fav_language"
+                value="Masculino"
+                class="form-check-input"
+              />
+              Masculino</label
+            >
+            <label for="html"
+              ><input
+                type="radio"
+                id="sex"
+                name="fav_language"
+                value="Feminino"
+                class="form-check-input"
+              />
+              Feminino</label
+            >
+          </div>
+        </div>
+        <div class="input-box">
+          <p>Data Nascimento</p>
+          <input type="date" id="date" class="input" />
+        </div>
+        <div class="input-box">
+          <p>E-mail</p>
+          <input type="text" id="email" class="input" />
+        </div>
+        <div class="input-box">
+          <p>Senha</p>
+          <input type="text" id="password" class="input" />
+        </div>
+        <div class="input-box">
+          <p>Repetir senha</p>
+          <input type="text" id="confirm" class="input" />
+        </div>
+
+        <div class="register-box flex-center">
+          <a href="../">
+            <button type="button" class="btn btn-success register-button">
+              Cadastrar
+            </button>
+          </a>
+        </div>
+      </form>
     </section>
 
     <script

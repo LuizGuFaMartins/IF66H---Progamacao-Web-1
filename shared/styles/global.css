@@ -1,27 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Averia+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
-*{
-    font-family: 'Averia Libre', cursive;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+* {
+  font-family: 'Averia Libre', cursive !important;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-html, body{
+html,
+body {
   height: 100%;
   box-sizing: border-box;
 }
 
-:root{
-  /* --primary-color: #FFFFFF;    
-  --secondary-color: #198CDF;
-  --tertiary-color: #ECECEC;
-  --close-buttons-color: #EE6262;
-  --close-buttons-hover: #e64747; */
+:root {
+  --background-color: #ADD4D0;
   --header-color: #C1E7E3;
+  --primary-font-color: white;
+  --input-font-color: #3F92C5;
+  --primary-button-color: #419ED7;
 }
 
-.flex-center{
+.flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
