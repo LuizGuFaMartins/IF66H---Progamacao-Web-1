@@ -47,20 +47,23 @@ document.querySelector('button[type=submit]').addEventListener('click', (event) 
         passwordConfirmBox.classList.remove("input-confirm-error-class");
     }
 
-    const radioFem = document.getElementById('feminino');
-    const radioMasc = document.getElementById('masculino');
+    // Validação dos campos radio
+    const radios = document.querySelectorAll(".form-check-input");
     const radioBox = document.getElementsByClassName('input-radio')[0];
+    let hasOneSelected = false;
 
-    if(!radioFem.checked && !radioMasc.checked){
-        radioBox.classList.add('input-radio-error-class');
-    }
-    if(radioFem.checked || radioMasc.checked){
-        radioBox.classList.remove('input-radio-error-class');
-    }
+    radios.forEach((element, index) => {
+        if (element.checked) hasOneSelected = true;
+        if ((radios.length - 1) === index && !hasOneSelected) {
+            radioBox.classList.add('input-radio-error-class');
+            isFormValid = false;
+        } else {
+            radioBox.classList.remove('input-radio-error-class');
+        }
+    });   
+
     
     if(isFormValid){
-        console.log("Formulário válido")
-    }else{
-        console.log("Formulário inválido")
+        window.location.href = "../index.html";
     }
 })

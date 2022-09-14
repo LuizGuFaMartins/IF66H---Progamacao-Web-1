@@ -22,21 +22,25 @@
       </div>
     </header>
     <section class="background-container flex-center">
-      <form class="form">       
+      <form class="form" autocomplete="off">       
         <div class="input-box">
           <p>E-mail</p>
-          <input type="text" id="email" class="input" />
+          <div id="email-box" class="input-border">
+            <input type="text" id="email" class="input" />
+          </div>
         </div>
         <div class="input-box">
           <p>Senha</p>
-          <input type="password" id="password" class="input" />
+          <div id="confirm-box" class="input-border">
+            <input type="password" id="password" class="input" />
+          </div>
         </div>
         <div class="register-box flex-center">
-          <a href="../home">
-            <button type="button" class="btn btn-success register-button">
+          
+            <button type="submit" class="btn btn-success register-button">
               Entrar
             </button>
-          </a>
+          
         </div>
       </form>
     </section>
@@ -46,5 +50,6 @@
       integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
       crossorigin="anonymous"
     ></script>
+    <script src="./script.js"></script>
   </body>
 </html>

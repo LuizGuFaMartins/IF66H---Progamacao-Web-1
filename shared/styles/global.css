@@ -70,4 +70,10 @@ body {
   margin-left: 10px;
 }
 
-
+.input-radio-error-class::after{
+  content: 'Selecione uma das opções.';
+  display: flex;
+  flex-direction: column;
+  color: red;
+  font-size: 14px;
+}
