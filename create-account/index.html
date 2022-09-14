@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="../assets/icon-vaccine.jpg"/>
+    <link rel="icon" type="image/png" href="../assets/icon-vaccine.jpg" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -22,10 +22,12 @@
       </div>
     </header>
     <section class="background-container flex-center">
-      <form class="form">
+      <form class="form" autocomplete="off">
         <div class="input-box">
           <p>Nome Completo</p>
-          <input type="text" id="name" class="input" />
+          <div class="input-border">
+            <input type="text" id="name" class="input" />
+          </div>
         </div>
         <div class="input-box">
           <p>Sexo</p>
@@ -33,7 +35,7 @@
             <label for="html"
               ><input
                 type="radio"
-                id="sex"
+                id="masculino"
                 name="fav_language"
                 value="Masculino"
                 class="form-check-input"
@@ -43,7 +45,7 @@
             <label for="html"
               ><input
                 type="radio"
-                id="sex"
+                id="feminino"
                 name="fav_language"
                 value="Feminino"
                 class="form-check-input"
@@ -54,27 +56,33 @@
         </div>
         <div class="input-box">
           <p>Data Nascimento</p>
-          <input type="date" id="date" class="input" />
+          <div class="input-border">
+            <input type="date" value="date" id="date" class="input" />
+          </div>
         </div>
         <div class="input-box">
           <p>E-mail</p>
-          <input type="text" id="email" class="input" />
+          <div id="email-box" class="input-border">
+            <input type="text" id="email" class="input" />
+          </div>
         </div>
         <div class="input-box">
           <p>Senha</p>
-          <input type="text" id="password" class="input" />
+          <div class="input-border">
+            <input type="text" id="password" class="input" />
+          </div>
         </div>
         <div class="input-box">
           <p>Repetir senha</p>
-          <input type="text" id="confirm" class="input" />
+          <div id="confirm-box" class="input-border">
+            <input type="text" id="confirm" class="input" />
+          </div>
         </div>
 
         <div class="register-box flex-center">
-          <a href="../">
-            <button type="button" class="btn btn-success register-button">
+            <button type="submit" class="btn btn-success register-button">
               Cadastrar
             </button>
-          </a>
         </div>
       </form>
     </section>
@@ -84,5 +92,6 @@
       integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
       crossorigin="anonymous"
     ></script>
+    <script src="./script.js"></script>
   </body>
 </html>

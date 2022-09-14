@@ -33,14 +33,18 @@
     </header>
 
     <section class="background-container flex-center">
-      <form class="form">
+      <form class="form" autocomplete="off">
         <div class="input-box">
-          <p>Data de vascinaçãoo</p>
-          <input type="date" id="date" class="input" />
+          <p>Data de vascinação</p>
+          <div class="input-border">
+            <input type="date" id="date" class="input" />
+          </div>
         </div>
         <div class="input-box">
           <p>Vacina</p>
-          <input type="text" id="name" class="input" />
+          <div class="input-border">
+            <input type="text" id="name" class="input" />
+          </div>
         </div>
         <div class="input-box">
           <p>Dose</p>
@@ -48,9 +52,9 @@
             <label for="html"
               ><input
                 type="radio"
-                id="sex"
+                id="primeira"
                 name="fav_language"
-                value="Masculino"
+                value="primeira"
                 class="form-check-input"
               />
               1a. dose</label
@@ -58,9 +62,9 @@
             <label for="html"
               ><input
                 type="radio"
-                id="sex"
+                id="segunda"
                 name="fav_language"
-                value="Feminino"
+                value="segunda"
                 class="form-check-input"
               />
               2a. dose</label
@@ -68,9 +72,9 @@
             <label for="html"
               ><input
                 type="radio"
-                id="sex"
+                id="terceira"
                 name="fav_language"
-                value="Feminino"
+                value="terceira"
                 class="form-check-input"
               />
               3a. dose</label
@@ -78,9 +82,9 @@
             <label for="html"
               ><input
                 type="radio"
-                id="sex"
+                id="reforco"
                 name="fav_language"
-                value="Feminino"
+                value="reforco"
                 class="form-check-input"
               />
               Reforço</label
@@ -88,9 +92,9 @@
             <label for="html"
               ><input
                 type="radio"
-                id="sex"
+                id="unica"
                 name="fav_language"
-                value="Feminino"
+                value="unica"
                 class="form-check-input"
               />
               Dose única</label
@@ -108,16 +112,16 @@
           </div>
         </div>
         <div class="input-box">
-          <p>Data de vascinaçãoo</p>
-          <input type="date" id="date" class="input" />
+          <p>Data de vascinação</p>
+          <div class="input-border">
+            <input type="date" id="date" class="input" />
+          </div>
         </div>
 
         <div class="register-box flex-center">
-          <a href="../home">
-            <button type="button" class="btn btn-success register-button">
-              Cadastrar
-            </button>
-          </a>
+          <button type="submit" class="btn btn-success register-button">
+            Cadastrar
+          </button>
         </div>
       </form>
     </section>
@@ -127,5 +131,6 @@
       integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
       crossorigin="anonymous"
     ></script>
+    <script src="./script.js"></script>
   </body>
 </html>

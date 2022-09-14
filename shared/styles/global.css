@@ -26,3 +26,54 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.border-red{
+  border: 1px solid red !important;
+}
+
+.input-error-class{
+  display: flex;
+  flex-direction: column;
+}
+
+.input-error-class::after{
+  content: 'Preencha o campo corretamente.';  
+  z-index: 99;
+  font-size: 14px;
+  color: red !important;  
+  margin-left: 10px;
+}
+
+.input-email-error-class{
+  display: flex;
+  flex-direction: column;
+}
+
+.input-email-error-class::after{
+  content: 'E-mail inválido.';  
+  z-index: 99;
+  font-size: 14px;
+  color: red !important;  
+  margin-left: 10px;
+}
+
+.input-confirm-error-class{
+  display: flex;
+  flex-direction: column;
+}
+
+.input-confirm-error-class::after{
+  content: 'As senhas devem ser iguais.';  
+  z-index: 99;
+  font-size: 14px;
+  color: red !important;  
+  margin-left: 10px;
+}
+
+.input-radio-error-class::after{
+  content: 'Selecione uma das opções.';
+  display: flex;
+  flex-direction: column;
+  color: red;
+  font-size: 14px;
+}
