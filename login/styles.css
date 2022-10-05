@@ -17,9 +17,11 @@
     color: var(--primary-font-color);
     display: flex;
     justify-content: right;
+    margin-top: 20px;
 }
 
-.input-box p{
+.input-box p,
+label {
     height: 45px;
 }
 
@@ -34,20 +36,20 @@
     border: 0;
 }
 
-.input:focus{
+.input:focus {
     outline: 0;
 }
 
-.input-radio{
+.input-radio {
     width: 500px;
     margin-left: 10px;
 }
 
-.register-box{
+.register-box {
     width: 100%;
     height: 100px;
 }
 
-.register-button{
+.register-button {
     padding: 10px 30px;
 }

@@ -11,23 +11,24 @@ header button {
     background-color: var(--background-color);
 }
 
-.card-body{
+
+.card-body {
     height: fit-content;
     padding: 0;
 }
 
-.card-body h1:hover{
+.card-body h1:hover {
     color: #0a58ca;
 }
 
-.card-body h1{
+.card-body h1 {
     height: fit-content;
     cursor: pointer;
-    text-decoration: none;    
+    text-decoration: none;
     color: var(--input-font-color);
 }
 
-.card-body h6{
+.card-body h6 {
     width: fit-content;
     height: 25px;
     line-height: 25px;
@@ -37,28 +38,35 @@ header button {
     background-color: var(--input-font-color);
 }
 
-.card-body span{
+.card-body span {
     color: #8B8B8B !important;
 }
 
-.vaccine-title{
+.vaccine-title {
     height: fit-content !important;
     padding: 0;
     margin: 0;
 }
 
-.vaccine-box {    
+.vaccine-container {
     width: 100%;
     min-width: 80%;
     max-height: 100%;
     margin: 0 auto;
     overflow-y: auto;
-    flex-wrap: wrap;
 }
 
-.vaccine-box > a{
+.vaccine-box {
+    width: 1100px;
+    margin: 0 auto;
+    padding: 30px 0;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 30px;
+}
+
+.vaccine-box > a {
     text-decoration: none;
-    margin: 40px;
 }
 
 .card {
@@ -68,9 +76,10 @@ header button {
     padding: 15px;
     padding-bottom: 35px;
     position: relative;
+    cursor: pointer;
 }
 
-.card-img-bottom{
+.card-img-bottom {
     height: 158px;
 }
 
@@ -99,4 +108,10 @@ header button {
 
 .register-button {
     padding: 10px 30px;
+}
+
+@media screen and (max-width: 1150px){
+    .vaccine-box{
+        width: 100%;
+    }
 }
