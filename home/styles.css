@@ -65,8 +65,26 @@ header button {
     gap: 30px;
 }
 
-.vaccine-box > a {
+.vaccine-box-flex {
+    width: 1100px;
+    margin: 0 auto;
+    padding: 30px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vaccine-box-flex > .card-container{
+    margin: 0 30px;
+}
+
+.vaccine-box>a {
     text-decoration: none;
+}
+
+.card-container{
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .card {
@@ -110,8 +128,8 @@ header button {
     padding: 10px 30px;
 }
 
-@media screen and (max-width: 1150px){
-    .vaccine-box{
+@media screen and (max-width: 1150px) {
+    .vaccine-box {
         width: 100%;
     }
 }

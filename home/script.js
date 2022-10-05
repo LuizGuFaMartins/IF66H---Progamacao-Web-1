@@ -1,6 +1,6 @@
 const createCard = (index, nome, dose, data, urlImagem, proxima) => {
     let card = document.createElement("div")
-    card.classList.add("card-body")
+    card.classList.add("card-container")
     card.id = index;
     // card.href = 
 
@@ -43,7 +43,7 @@ const createCard = (index, nome, dose, data, urlImagem, proxima) => {
 }
 
 const addClickEventOnCards = (temporaryCards) => {
-    const cards = document.getElementsByClassName('card-body');
+    const cards = document.getElementsByClassName('card-container');
     for (let card of cards) {
         card.addEventListener('click', () => {
             localStorage.setItem('selected_vaccine', JSON.stringify(temporaryCards[card.getAttribute('id')]));
@@ -60,9 +60,36 @@ window.onload = () => {
             dose: 'Primeira',
             data: '2022-09-09',
             urlImagem: '../assets/initial_background.jpg',
-            proxima: 'Próxima: 2025-09-20',
-        },        
+            proxima: 'Próxima dose: 2025-09-20',
+        },
+        {
+            nome: 'Hepatite',
+            dose: 'Segunda',
+            data: '2022-09-09',
+            urlImagem: '../assets/initial_background.jpg',
+            proxima: 'Próxima dose: 2025-09-20',
+        },
+        {
+            nome: 'Pneumocócica',
+            dose: 'Reforço',
+            data: '2022-09-09',
+            urlImagem: '../assets/initial_background.jpg',
+            proxima: 'Próxima dose: 2025-09-20',
+        },
+        {
+            nome: 'Rotavírus',
+            dose: 'Primeira',
+            data: '2022-09-09',
+            urlImagem: '../assets/initial_background.jpg',
+            proxima: 'Próxima dose: 2025-09-20',
+        },
+        
     ]
+
+    if (temporaryCards.length <= 2) {
+        vaccineList.classList.remove('vaccine-box');
+        vaccineList.classList.add('vaccine-box-flex');
+    }
 
     temporaryCards.forEach((card, index) => {
         vaccineList.appendChild(createCard(index, card.nome, card.dose, card.data, card.urlImagem, card.proxima));

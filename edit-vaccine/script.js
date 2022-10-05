@@ -20,3 +20,22 @@ document
     modal.style.display = "none";
   }
 });
+
+window.onload = () => {
+  const selectedVaccine = JSON.parse(localStorage.getItem('selected_vaccine'));
+
+  const date = document.getElementById('date');
+  date.value = selectedVaccine.data;
+
+  const vaccine = document.getElementById('name');
+  vaccine.value = selectedVaccine.nome;
+
+  // const dose = document.getElementById('name');
+  // vaccine.value = selectedVaccine.nome;
+
+  // const image = document.getElementById('name');
+  // vaccine.value = selectedVaccine.nome;
+
+  const nextDose = document.getElementById('next-date');
+  nextDose.value = selectedVaccine.proxima.split(': ')[1];
+}
