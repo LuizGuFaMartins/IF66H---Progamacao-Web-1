@@ -5,12 +5,25 @@ header button {
     margin-left: 20px;
 }
 
-.background-container {
+.search-input {
     width: 100%;
-    height: calc(100% - 157px);
     background-color: var(--background-color);
+    padding: 20px 30px;
 }
 
+.input-search {
+    width: 100%;
+    padding-left: 30px;
+    border: none;
+    outline: none;
+    height: 30px;
+}
+
+.background-container {
+    width: 100%;
+    height: calc(100% - 157px - 70px);
+    background-color: var(--background-color);
+}
 
 .card-body {
     height: fit-content;
@@ -59,7 +72,8 @@ header button {
 .vaccine-box {
     width: 1100px;
     margin: 0 auto;
-    padding: 30px 0;
+    padding-bottom: 30px;
+    padding-top: 10px;
     display: grid;
     grid-template-columns: auto auto auto;
     gap: 30px;
@@ -74,7 +88,7 @@ header button {
     align-items: center;
 }
 
-.vaccine-box-flex > .card-container{
+.vaccine-box-flex>.card-container {
     margin: 0 30px;
 }
 
@@ -82,7 +96,7 @@ header button {
     text-decoration: none;
 }
 
-.card-container{
+.card-container {
     width: fit-content;
     margin: 0 auto;
 }
