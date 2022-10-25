@@ -60,3 +60,23 @@ label {
     bottom: 100px;
     left: 0;
 }
+
+.form-error-invalid-password::before{
+    content: "Email inválido...";
+    color: red;
+    font-size: 22px;
+    width: 700px;
+    display: flex;   
+    justify-content: center;
+    align-items: center;
+}
+
+.form-error-invalid-user::before{
+    content: "Senha inválida...";
+    color: red;
+    font-size: 22px;
+    width: 700px;
+    display: flex;   
+    justify-content: center;
+    align-items: center;
+}
