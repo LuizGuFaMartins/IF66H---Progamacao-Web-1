@@ -53,10 +53,3 @@ label {
 .register-button {
     padding: 10px 30px;
 }
-
-.register-link {
-    width: 100%;
-    position: absolute;
-    bottom: 100px;
-    left: 0;
-}
