@@ -1,4 +1,4 @@
-import { app, auth } from '../config/firebase.js';
+import { auth } from '../config/firebase.js';
 import { signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js';
 
 const fields = document.getElementsByClassName('input');
@@ -12,32 +12,31 @@ const passwordField = document.getElementById('password');
 window.onload = () => {
     document.querySelector('button[type=submit]').addEventListener('click', (event) => {
         event.preventDefault();
-        login();
+        if (validateFields()) {
+            login();
+        }
     });
 }
 
-
 const login = () => {
-    if (validateFields()) {
-        signInWithEmailAndPassword(auth, emailField.value, passwordField.value)
-            .then((user) => {
-                console.log(JSON.stringify(user))
-                document.querySelector(".form").classList.remove('form-error-invalid-password');
+    signInWithEmailAndPassword(auth, emailField.value, passwordField.value)
+        .then((user) => {
+            console.log(JSON.stringify(user))
+            document.querySelector(".form").classList.remove('form-error-invalid-password');
+            document.querySelector(".form").classList.remove('form-error-invalid-user');
+            window.location.href = "../home";
+        })
+        .catch((error) => {
+            console.log(error.code)
+            if (error.code === "auth/wrong-password") {
                 document.querySelector(".form").classList.remove('form-error-invalid-user');
-                window.location.href = "../home";
-            })
-            .catch((error) => {
-                console.log(error.code)
-                if (error.code === "auth/wrong-password") {
-                    document.querySelector(".form").classList.remove('form-error-invalid-user');
-                    document.querySelector(".form").classList.add('form-error-invalid-password');
-                }
-                else if (error.code === "auth/user-not-found") {
-                    document.querySelector(".form").classList.remove('form-error-invalid-password');
-                    document.querySelector(".form").classList.add('form-error-invalid-user');
-                }
-            });
-    }
+                document.querySelector(".form").classList.add('form-error-invalid-password');
+            }
+            else if (error.code === "auth/user-not-found") {
+                document.querySelector(".form").classList.remove('form-error-invalid-password');
+                document.querySelector(".form").classList.add('form-error-invalid-user');
+            }
+        });
 }
 
 const validateFields = () => {

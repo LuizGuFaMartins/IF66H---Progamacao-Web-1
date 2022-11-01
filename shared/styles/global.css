@@ -77,3 +77,43 @@ body {
   color: red;
   font-size: 14px;
 }
+
+.form-error-invalid-password::before{
+  content: "Email inválido...";
+  color: red;
+  font-size: 22px;
+  width: 700px;
+  display: flex;   
+  justify-content: center;
+  align-items: center;
+}
+
+.form-error-invalid-user::before{
+  content: "Senha inválida...";
+  color: red;
+  font-size: 22px;
+  width: 700px;
+  display: flex;   
+  justify-content: center;
+  align-items: center;
+}
+
+.form-error-invalid-email::before{
+  content: "Email não cadastrado no sistema...";
+  color: red;
+  font-size: 22px;
+  width: 700px;
+  display: flex;   
+  justify-content: center;
+  align-items: center;
+}
+
+.form-send-recovery-email::before{
+  content: "Para prosseguir verifique a caixa de entrada do seu email...";
+  color: yellow;
+  font-size: 22px;
+  width: 700px;
+  display: flex;   
+  justify-content: center;
+  align-items: center;
+}
