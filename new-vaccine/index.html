@@ -37,13 +37,13 @@
         <div class="input-box">
           <label>Data de vascinação</label>
           <div class="input-border">
-            <input type="date" id="date" class="input" />
+            <input type="date" id="date-vac" class="input" />
           </div>
         </div>
         <div class="input-box">
           <label>Vacina</label>
           <div class="input-border">
-            <input type="text" id="name" class="input" />
+            <input type="text" id="vaccine" class="input" />
           </div>
         </div>
         <div class="input-box">
@@ -105,21 +105,27 @@
         <div class="input-box">
           <label>Comprovante da vacina</label>
           <div class="upload-box">
-            <button type="button" class="btn btn-primary upload-button">
-              Selecionar imagem...
-            </button>
-            <div class="image-vaccine"></div>
+            <label for="arquivo" class="btn btn-primary upload-button"
+              >Selecionar arquivo...</label
+            >
+            <input id="arquivo" type="file" class="btn btn-primary upload-button" />
+            <img class="image-vaccine" />
           </div>
         </div>
+
         <div class="input-box">
-          <label>Data de vascinação</label>
+          <label>Próxima vascinação</label>
           <div class="input-border">
-            <input type="date" id="date" class="input" />
+            <input type="date" id="next-date-vaccine" class="input" />
           </div>
         </div>
 
         <div class="register-box flex-center">
-          <button type="submit" class="btn btn-success register-button">
+          <button
+            id="register-button"
+            type="submit"
+            class="btn btn-success register-button"
+          >
             Cadastrar
           </button>
         </div>
@@ -131,6 +137,6 @@
       integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
       crossorigin="anonymous"
     ></script>
-    <script src="./script.js"></script>
+    <script type="module" src="./script.js"></script>
   </body>
 </html>
