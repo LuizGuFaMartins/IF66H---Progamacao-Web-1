@@ -56,7 +56,7 @@
       </div>
       <form class="form">
         <div class="input-box">
-        <p>Data de vascinação</p>
+          <p>Data de vascinação</p>
           <input type="date" id="date" class="input" />
         </div>
         <div class="input-box">
@@ -120,16 +120,22 @@
         </div>
 
         <div class="input-box">
-          <p>Comprovante da vacina</p>
+          <label>Comprovante da vacina</label>
           <div class="upload-box">
-            <button type="button" class="btn btn-primary upload-button">
-              Selecionar imagem...
-            </button>
-            <div class="image-vaccine"></div>
+            <label for="arquivo" class="btn btn-primary upload-button"
+              >Selecionar arquivo...</label
+            >
+            <input
+              id="arquivo"
+              type="file"
+              class="btn btn-primary upload-button"
+            />
+            <img class="image-vaccine" />
           </div>
         </div>
+
         <div class="input-box">
-          <p>Próxima vacinação: </p>
+          <p>Próxima vacinação:</p>
           <input type="date" id="next-date" class="input" />
         </div>
 

@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js"
 import { initializeFirestore } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDXhk-jBa_G-0BkdW911s5SKyQSFfv6yVg",
@@ -15,5 +16,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = initializeFirestore(app, { experimentalForceLongPolling: true });
+const storage = getStorage(app)
 
-export { app, auth, db }
+export { app, auth, db, storage }

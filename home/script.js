@@ -1,3 +1,6 @@
+import { collection, onSnapshot, query } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js";
+import { db } from '../config/firebase.js';
+
 const createCard = (index, nome, dose, data, urlImagem, proxima) => {
     let card = document.createElement("div")
     card.classList.add("card-container")
@@ -54,68 +57,55 @@ const addClickEventOnCards = (temporaryCards) => {
 
 const formatDate = (date) => {
     if (date.includes('Próxima dose:')) {
-        date = date.split(': ')[1];
-        day = date.split('-')[2];
-        month = date.split('-')[1];
-        year = date.split('-')[0];
+        let date = date.split(': ')[1];
+        let day = date.split('-')[2];
+        let month = date.split('-')[1];
+        let year = date.split('-')[0];
         return `Próxima dose: ${day}/${month}/${year}`;
     } else {
-        day = date.split('-')[2];
-        month = date.split('-')[1];
-        year = date.split('-')[0];
+        let day = date.split('-')[2];
+        let month = date.split('-')[1];
+        let year = date.split('-')[0];
         return `${day}/${month}/${year}`;
     }
 
 }
 
 window.onload = () => {
+
+    const loadVaccines = () => {
+        const q = query(collection(db, "vacinas"))
+        let cardsList = [];
+        onSnapshot(q, (results) => {
+            results.forEach((documento) => {
+                console.log(documento.data())
+                cardsList.push({
+                    id: documento.id,
+                    vacina: documento.data().vacina,
+                    dose: documento.data().dose,
+                    data_vacinacao: documento.data().data_vacinacao,
+                    url_comprovate: documento.data().url_comprovate,
+                    proxima_vacinacao: documento.data().proxima_vacinacao,
+                })
+            })
+            showCardsAlunos(cardsList)
+        })
+    }
+
+    loadVaccines();
+}
+
+const showCardsAlunos = (cardsList) => {
     const vaccineList = document.getElementById("vaccine-list");
-    const temporaryCards = [
-        {
-            nome: 'BCG',
-            dose: '1a. dose',
-            data: '2022-09-09',
-            urlImagem: '../assets/initial_background.jpg',
-            proxima: 'Próxima dose: 2025-09-20',
-        },
-        {
-            nome: 'Hepatite',
-            dose: '2a. dose',
-            data: '2022-09-09',
-            urlImagem: '../assets/initial_background.jpg',
-            proxima: 'Próxima dose: 2025-09-20',
-        },
-        {
-            nome: 'Pneumocócica',
-            dose: 'Reforço',
-            data: '2022-09-09',
-            urlImagem: '../assets/initial_background.jpg',
-            proxima: 'Próxima dose: 2025-09-20',
-        },
-        {
-            nome: 'Rotavírus',
-            dose: '3a. dose',
-            data: '2022-09-09',
-            urlImagem: '../assets/initial_background.jpg',
-            proxima: 'Próxima dose: 2025-09-20',
-        },
-        {
-            nome: 'Covid',
-            dose: 'Dose única',
-            data: '2022-09-09',
-            urlImagem: '../assets/initial_background.jpg',
-            proxima: 'Próxima dose: 2025-09-20',
-        },
 
-    ]
-
-    if (temporaryCards.length <= 2) {
+    if (cardsList.length <= 2) {
         vaccineList.classList.remove('vaccine-box');
         vaccineList.classList.add('vaccine-box-flex');
     }
 
-    temporaryCards.forEach((card, index) => {
-        vaccineList.appendChild(createCard(index, card.nome, card.dose, formatDate(card.data), card.urlImagem, formatDate(card.proxima)));
+    cardsList.forEach((card, index) => {
+        // vaccineList.appendChild(createCard(index, card.nome, card.dose, formatDate(card.data), card.urlImagem, formatDate(card.proxima)));
+        vaccineList.appendChild(createCard(index, card.vacina, card.dose, formatDate(card.data_vacinacao), card.url_comprovate, formatDate(card.proxima_vacinacao)));
     })
 
     addClickEventOnCards(temporaryCards);
