@@ -5,7 +5,6 @@ const createCard = (index, nome, dose, data, urlImagem, proxima) => {
     let card = document.createElement("div")
     card.classList.add("card-container")
     card.id = index;
-    // card.href = 
 
     let divCard = document.createElement("div")
     divCard.classList.add("card")
@@ -50,7 +49,7 @@ const addClickEventOnCards = (temporaryCards) => {
     for (let card of cards) {
         card.addEventListener('click', () => {
             localStorage.setItem('selected_vaccine', JSON.stringify(temporaryCards[card.getAttribute('id')]));
-            window.location.href = '../edit-vaccine'
+            window.location.href = '../vaccine'
         })
     }
 }
@@ -73,12 +72,16 @@ const formatDate = (date) => {
 
 window.onload = () => {
 
+    document.getElementById("new-vaccine-button").addEventListener('click', () => {
+        localStorage.setItem('selected_vaccine', "");
+        window.location.href = '../vaccine'
+    })
+
     const loadVaccines = () => {
         const q = query(collection(db, "vacinas"))
         let cardsList = [];
         onSnapshot(q, (results) => {
             results.forEach((documento) => {
-                console.log(documento.data())
                 cardsList.push({
                     id: documento.id,
                     vacina: documento.data().vacina,
@@ -108,5 +111,5 @@ const showCardsAlunos = (cardsList) => {
         vaccineList.appendChild(createCard(index, card.vacina, card.dose, formatDate(card.data_vacinacao), card.url_comprovate, formatDate(card.proxima_vacinacao)));
     })
 
-    addClickEventOnCards(temporaryCards);
+    addClickEventOnCards(cardsList);
 }

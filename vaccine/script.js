@@ -41,12 +41,45 @@ window.onload = () => {
         file = event.target.files[0];
         const img = document.getElementsByClassName('image-vaccine')[0];
         img.setAttribute('src', URL.createObjectURL(file));
-        console.log(getVaccineDocumentUrl())
     })
 
-    const id = new URLSearchParams(window.location.search).get('id')
+    if (localStorage.getItem('selected_vaccine') != "") {
+        const selectedVaccine = JSON.parse(localStorage.getItem('selected_vaccine'));
 
-    if (id) {
+        console.log(selectedVaccine)
+
+        const date = document.getElementById('date-vac');
+        date.value = selectedVaccine.data_vacinacao;
+
+        const vaccine = document.getElementById('vaccine');
+        vaccine.value = selectedVaccine.vacina;
+
+        if (selectedVaccine.dose === '1a. dose') {
+            document.getElementById('primeira').checked = true;
+        }
+        if (selectedVaccine.dose === '2a. dose') {
+            document.getElementById('segunda').checked = true;
+        }
+        if (selectedVaccine.dose === '3a. dose') {
+            document.getElementById('terceira').checked = true;
+        }
+        if (selectedVaccine.dose === 'Reforço') {
+            document.getElementById('reforco').checked = true;
+        }
+        if (selectedVaccine.dose === 'Dose única') {
+            document.getElementById('unica').checked = true;
+        }
+
+        // const image = document.getElementById('name');
+        // vaccine.value = selectedVaccine.nome;
+
+        const nextDose = document.getElementById('next-date-vaccine');
+        if (selectedVaccine.proxima_vacinacao.includes(":")) {
+            nextDose.value = selectedVaccine.proxima.split(': ')[1];
+        } else {
+            nextDose.value = selectedVaccine.proxima_vacinacao;
+        }
+
         document.querySelector("button[type=submit]").innerText = "Salvar";
 
         getDoc(doc(db, "alunos", id))
@@ -74,6 +107,11 @@ const getVaccine = () => {
 }
 
 const getDose = () => {
+    const radios = document.querySelectorAll(".form-check-input");
+    let selected = "";
+    radios.forEach((element) => {
+        if (element.checked) selected = element.value;
+    });
     return document.getElementById("txtFoto").value
 }
 
@@ -106,6 +144,9 @@ const setNextVaccinet = (url) => {
 }
 
 const validateFields = () => {
+
+    getDose();
+
     let isFormValid = true;
 
     // validação de todos os campos
@@ -154,8 +195,7 @@ const register = () => {
             console.log("Arquivo enviado com sucesso: " + result)
             addDoc(collection(db, "vacinas"), {
                 data_vacinacao: getDateVaccine(),
-                // dose: getDose(),
-                dose: "primeira",
+                dose: getDose(),
                 proxima_vacinacao: getNextVaccine(),
                 url_comprovate: getVaccineDocumentUrl(),
                 path_comprovante: fileRef,
