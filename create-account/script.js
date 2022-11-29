@@ -1,3 +1,6 @@
+import {createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js"
+import {app, auth} from '../config/firebase.js'
+
 document.querySelector('button[type=submit]').addEventListener('click', (event) => {
     event.preventDefault();
 
@@ -61,9 +64,30 @@ document.querySelector('button[type=submit]').addEventListener('click', (event) 
             radioBox.classList.remove('input-radio-error-class');
         }
     });   
-
     
     if(isFormValid){
-        window.location.href = "../index.html";
+        cadastrarUsuario();
     }
 })
+
+const getEmail = () => {
+    return document.getElementById("email").value
+}
+
+const getSenha = () => {
+    return document.getElementById("password").value
+}
+
+const cadastrarUsuario = () => {
+    const email = getEmail()
+    const senha = getSenha()
+    
+    createUserWithEmailAndPassword(auth, email, senha)
+    .then( (user) => {
+        console.log(JSON.stringify(user))
+        window.location.href = "../index.html";
+    })
+    .catch( (error) => {
+        console.log(error.message)
+    })
+}
