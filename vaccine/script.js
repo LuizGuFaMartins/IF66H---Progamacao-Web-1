@@ -4,12 +4,10 @@ import { uploadBytes, ref, getDownloadURL, deleteObject } from "https://www.gsta
 
 let file = null;
 let pathFoto = null;
-let id = null;
 let isEditing = false;
 let urlDoc = "";
 
 window.onload = () => {
-    getDose()
     document
         .getElementById("open-modal-button")
         .addEventListener("click", (event) => {
@@ -20,7 +18,7 @@ window.onload = () => {
     document
         .getElementById("confirm-delete")
         .addEventListener("click", (event) => {
-            remove();
+            remove(id);
         });
 
     document
@@ -43,7 +41,7 @@ window.onload = () => {
         event.preventDefault();
         if (validateFields()) {
             if (isEditing) {
-                save();
+                save(id);
             } else {
                 register();
             }
@@ -57,53 +55,198 @@ window.onload = () => {
         img.setAttribute('src', URL.createObjectURL(file));
     })
 
-    if (localStorage.getItem('selected_vaccine') != "") {
+    let id = new URLSearchParams(window.location.search).get('id')
+
+    if (id) {
         isEditing = true;
-        const selectedVaccine = JSON.parse(localStorage.getItem('selected_vaccine'));
+        let selectedVaccine;
+        getDoc(doc(db, "vacinas", id))
+            .then((documento) => {
+                selectedVaccine = documento;
 
-        id = selectedVaccine.id
+                const date = document.getElementById('date-vac');
+                date.value = selectedVaccine.data().data_vacinacao;
 
-        console.log(selectedVaccine)
+                const vaccine = document.getElementById('vaccine');
+                vaccine.value = selectedVaccine.data().vacina;
 
-        const date = document.getElementById('date-vac');
-        date.value = selectedVaccine.data_vacinacao;
+                if (selectedVaccine.data().dose === '1a. dose') {
+                    document.getElementById('primeira').checked = true;
+                }
+                if (selectedVaccine.data().dose === '2a. dose') {
+                    document.getElementById('segunda').checked = true;
+                }
+                if (selectedVaccine.data().dose === '3a. dose') {
+                    document.getElementById('terceira').checked = true;
+                }
+                if (selectedVaccine.data().dose === 'Reforço') {
+                    document.getElementById('reforco').checked = true;
+                }
+                if (selectedVaccine.data().dose === 'Dose única') {
+                    document.getElementById('unica').checked = true;
+                }
 
-        const vaccine = document.getElementById('vaccine');
-        vaccine.value = selectedVaccine.vacina;
+                const img = document.getElementsByClassName('image-vaccine')[0];
+                img.setAttribute('src', selectedVaccine.data().url_comprovate);
+                urlDoc = selectedVaccine.data().url_comprovate;
+                pathFoto = selectedVaccine.data().path_comprovante;
 
-        if (selectedVaccine.dose === '1a. dose') {
-            document.getElementById('primeira').checked = true;
-        }
-        if (selectedVaccine.dose === '2a. dose') {
-            document.getElementById('segunda').checked = true;
-        }
-        if (selectedVaccine.dose === '3a. dose') {
-            document.getElementById('terceira').checked = true;
-        }
-        if (selectedVaccine.dose === 'Reforço') {
-            document.getElementById('reforco').checked = true;
-        }
-        if (selectedVaccine.dose === 'Dose única') {
-            document.getElementById('unica').checked = true;
-        }
+                const nextDose = document.getElementById('next-date-vaccine');
+                if (selectedVaccine.data().proxima_vacinacao.includes(":")) {
+                    nextDose.value = selectedVaccine.data().proxima.split(': ')[1];
+                } else {
+                    nextDose.value = selectedVaccine.data().proxima_vacinacao;
+                }
+            })
+            .catch((error) => {
+                console.log("Erro ao recuperar o documento: " + error)
+            })
 
-        const img = document.getElementsByClassName('image-vaccine')[0];
-        img.setAttribute('src', selectedVaccine.url_comprovate);
-        urlDoc = selectedVaccine.url_comprovate;
-        pathFoto = selectedVaccine.path_comprovante;
 
-        const nextDose = document.getElementById('next-date-vaccine');
-        if (selectedVaccine.proxima_vacinacao.includes(":")) {
-            nextDose.value = selectedVaccine.proxima.split(': ')[1];
-        } else {
-            nextDose.value = selectedVaccine.proxima_vacinacao;
-        }
+
 
         document.querySelector("button[type=submit]").innerText = "Salvar";
     } else {
         isEditing = false;
         document.querySelector("button[type=submit]").innerText = "Cadastrar";
         document.getElementById("open-modal-button").style.display = 'none';
+    }
+}
+
+const validateFields = () => {
+    let isFormValid = true;
+
+    // validação de todos os campos
+    const fields = document.getElementsByClassName('input');
+    const boxFields = document.getElementsByClassName('input-border');
+
+    for (let i = 0; i < fields.length; i++) {
+        if (fields[i].value === '') {
+            fields[i].classList.add('border-red');
+            boxFields[i].classList.add("input-error-class");
+            isFormValid = false;
+        }
+        if (fields[i].value !== '') {
+            fields[i].classList.remove('border-red');
+            boxFields[i].classList.remove("input-error-class");
+        }
+    }
+
+    // Validação dos campos radio
+    const radios = document.querySelectorAll(".form-check-input");
+    const radioBox = document.getElementsByClassName('input-radio')[0];
+    let hasOneSelected = false;
+
+    radios.forEach((element, index) => {
+        if (element.checked) hasOneSelected = true;
+        if ((radios.length - 1) === index && !hasOneSelected) {
+            radioBox.classList.add('input-radio-error-class');
+            isFormValid = false;
+        } else {
+            radioBox.classList.remove('input-radio-error-class');
+        }
+    });
+
+    return isFormValid;
+}
+
+const uid = () => {
+    const code = Date.now().toString(16) + Math.random().toString(16)
+    return code.replace(/\./g, '');
+}
+
+const register = () => {
+    const fileRef = "images/" + uid();
+    uploadBytes(ref(storage, fileRef), file)
+        .then((result) => {
+            getDownloadURL(ref(storage, fileRef))
+                .then((url) => {
+                    console.log("Url recuperada com sucesso: ", url)
+                    addDoc(collection(db, "vacinas"), {
+                        data_vacinacao: getDateVaccine(),
+                        dose: getDose(),
+                        proxima_vacinacao: getNextVaccine(),
+                        url_comprovate: url,
+                        path_comprovante: fileRef,
+                        vacina: getVaccine(),
+                    })
+                        .then(() => {
+                            window.location.href = "../home"
+                        })
+                        .catch((error) => {
+                            console.log("Erro ao atualizar o documento: " + error)
+                        })
+                }).catch((error) => {
+                    console.log("Erro ao recuperar url: " + error)
+                })
+            console.log("Arquivo enviado com sucesso: " + result)
+        })
+        .catch((error) => {
+            console.log("Erro ao enviar arquivo: " + error)
+        })
+}
+
+const remove = (id) => {
+    deleteObject(ref(storage, pathFoto))
+        .then(() => {
+            deleteDoc(doc(db, "vacinas", id))
+                .then(() => {
+                    window.location.href = "../home"
+                })
+                .catch((error) => {
+                    console.log("Erro ao excluir documento: " + error)
+                })
+            console.log("Arquivo excluído com sucesso.")
+        })
+        .catch((error) => {
+            console.log("Erro ao excluir o arquivo.", + error)
+        })
+}
+
+const save = (id) => {
+    if (file) {
+        uploadBytes(ref(storage, pathFoto), file)
+            .then((result) => {
+                getDownloadURL(ref(storage, pathFoto))
+                    .then((url) => {
+                        console.log("Url recuperada com sucesso: ", url)
+                        updateDoc(doc(db, "vacinas", id), {
+                            data_vacinacao: getDateVaccine(),
+                            dose: getDose(),
+                            proxima_vacinacao: getNextVaccine(),
+                            url_comprovate: url,
+                            path_comprovante: pathFoto,
+                            vacina: getVaccine(),
+                        })
+                            .then(() => {
+                                window.location.href = "../home"
+                            })
+                            .catch((error) => {
+                                console.log("Erro ao atualizar o documento: " + error)
+                            })
+                    }).catch((error) => {
+                        console.log("Erro ao recuperar url: " + error)
+                    })
+                console.log("Arquivo enviado com sucesso: " + result)
+            })
+            .catch((error) => {
+                console.log("Erro ao enviar arquivo: " + error)
+            })
+    } else {
+        updateDoc(doc(db, "vacinas", id), {
+            data_vacinacao: getDateVaccine(),
+            dose: getDose(),
+            proxima_vacinacao: getNextVaccine(),
+            url_comprovate: urlDoc,
+            path_comprovante: pathFoto,
+            vacina: getVaccine(),
+        })
+            .then(() => {
+                window.location.href = "../home"
+            })
+            .catch((error) => {
+                console.log("Erro ao atualizar o documento: " + error)
+            })
     }
 }
 
@@ -152,158 +295,4 @@ const setVaccineDocumentUrl = (url) => {
 
 const setNextVaccinet = (url) => {
     document.getElementById("next-date-vaccine").value = url
-}
-
-const validateFields = () => {
-    getDose()
-
-    let isFormValid = true;
-
-    // validação de todos os campos
-    const fields = document.getElementsByClassName('input');
-    const boxFields = document.getElementsByClassName('input-border');
-
-    for (let i = 0; i < fields.length; i++) {
-        if (fields[i].value === '') {
-            fields[i].classList.add('border-red');
-            boxFields[i].classList.add("input-error-class");
-            isFormValid = false;
-        }
-        if (fields[i].value !== '') {
-            fields[i].classList.remove('border-red');
-            boxFields[i].classList.remove("input-error-class");
-        }
-    }
-
-    // Validação dos campos radio
-    const radios = document.querySelectorAll(".form-check-input");
-    const radioBox = document.getElementsByClassName('input-radio')[0];
-    let hasOneSelected = false;
-
-    radios.forEach((element, index) => {
-        if (element.checked) hasOneSelected = true;
-        if ((radios.length - 1) === index && !hasOneSelected) {
-            radioBox.classList.add('input-radio-error-class');
-            isFormValid = false;
-        } else {
-            radioBox.classList.remove('input-radio-error-class');
-        }
-    });
-
-    return isFormValid;
-}
-
-const uid = () => {
-    const code = Date.now().toString(16) + Math.random().toString(16)
-    return code.replace(/\./g, '');
-}
-
-const register = () => {
-    const fileRef = "images/" + uid();
-
-    const dado = {
-        data_vacinacao: getDateVaccine(),
-        dose: getDose(),
-        proxima_vacinacao: getNextVaccine(),
-        url_comprovate: getVaccineDocumentUrl(),
-        path_comprovante: fileRef,
-        vacina: getVaccine()
-    }
-    console.log("dado: ", dado)
-
-    uploadBytes(ref(storage, fileRef), file)
-        .then((result) => {
-            console.log(result)
-            getDownloadURL(ref(storage, fileRef))
-                .then((url) => {
-                    console.log("Url recuperada com sucesso: ", url)
-                    addDoc(collection(db, "vacinas"), {
-                        data_vacinacao: getDateVaccine(),
-                        dose: getDose(),
-                        proxima_vacinacao: getNextVaccine(),
-                        url_comprovate: url,
-                        path_comprovante: fileRef,
-                        vacina: getVaccine(),
-                    })
-                        .then(() => {
-                            window.location.href = "../home"
-                        })
-                        .catch((error) => {
-                            console.log("Erro ao atualizar o documento: " + error)
-                        })
-                }).catch((error) => {
-                    console.log("Erro ao recuperar url: " + error)
-                })
-            console.log("Arquivo enviado com sucesso: " + result)
-        })
-        .catch((error) => {
-            console.log("Erro ao enviar arquivo: " + error)
-        })
-}
-
-const remove = (id) => {
-    deleteObject(ref(storage, getPathFoto()))
-        .then(() => {
-            console.log("Arquivo excluído com sucesso.")
-            deleteDoc(doc(db, "vacinas", id))
-                .then(() => {
-                    window.location.href = "home.html"
-                })
-                .catch((error) => {
-                    console.log("Erro ao excluir documento: " + error)
-                })
-        })
-        .catch((error) => {
-            console.log("Erro ao excluir o arquivo.")
-        })
-}
-
-const save = (id) => {
-    if (file) {
-        uploadBytes(ref(storage, pathFoto), file)
-            .then((result) => {
-                getDownloadURL(ref(storage, pathFoto))
-                    .then((url) => {
-                        console.log("Url recuperada com sucesso: ", url)
-
-                        console.log("url: ", url)
-
-                        updateDoc(doc(db, "vacinas", id), {
-                            data_vacinacao: getDateVaccine(),
-                            dose: getDose(),
-                            proxima_vacinacao: getNextVaccine(),
-                            url_comprovate: url,
-                            path_comprovante: fileRef,
-                            vacina: getVaccine(),
-                        })
-                            .then(() => {
-                                window.location.href = "../home"
-                            })
-                            .catch((error) => {
-                                console.log("Erro ao atualizar o documento: " + error)
-                            })
-                    }).catch((error) => {
-                        console.log("Erro ao recuperar url: " + error)
-                    })
-                console.log("Arquivo enviado com sucesso: " + result)
-            })
-            .catch((error) => {
-                console.log("Erro ao enviar arquivo: " + error)
-            })
-    } else {
-        updateDoc(doc(db, "vacinas", id), {
-            data_vacinacao: getDateVaccine(),
-            dose: getDose(),
-            proxima_vacinacao: getNextVaccine(),
-            url_comprovate: url,
-            path_comprovante: fileRef,
-            vacina: getVaccine(),
-        })
-            .then(() => {
-                window.location.href = "../home"
-            })
-            .catch((error) => {
-                console.log("Erro ao atualizar o documento: " + error)
-            })
-    }
 }

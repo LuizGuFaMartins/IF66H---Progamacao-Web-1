@@ -1,7 +1,7 @@
 import { collection, onSnapshot, query } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js";
 import { db } from '../config/firebase.js';
 
-const createCard = (index, nome, dose, data, urlImagem, proxima) => {
+const createCard = (index, id, nome, dose, data, urlImagem, proxima) => {
     let card = document.createElement("div")
     card.classList.add("card-container")
     card.id = index;
@@ -31,6 +31,10 @@ const createCard = (index, nome, dose, data, urlImagem, proxima) => {
     let smallDose = document.createElement("small")
     smallDose.classList.add("text-muted")
     smallDose.innerHTML = proxima
+    
+    card.addEventListener("click", () => {
+        window.location.href = "../vaccine/index.html?id=" + id
+    })
 
     card.appendChild(divCard)
     divCard.appendChild(divCardBody)
@@ -44,15 +48,15 @@ const createCard = (index, nome, dose, data, urlImagem, proxima) => {
     return card
 }
 
-const addClickEventOnCards = (temporaryCards) => {
-    const cards = document.getElementsByClassName('card-container');
-    for (let card of cards) {
-        card.addEventListener('click', () => {
-            localStorage.setItem('selected_vaccine', JSON.stringify(temporaryCards[card.getAttribute('id')]));
-            window.location.href = '../vaccine'
-        })
-    }
-}
+// const addClickEventOnCards = (temporaryCards) => {
+//     const cards = document.getElementsByClassName('card-container');
+//     for (let card of cards) {
+//         card.addEventListener('click', () => {
+//             localStorage.setItem('selected_vaccine', JSON.stringify(temporaryCards[card.getAttribute('id')]));
+//             window.location.href = '../vaccine'
+//         })
+//     }
+// }
 
 const formatDate = (date) => {
     if (date.includes('Próxima dose:')) {
@@ -71,6 +75,12 @@ const formatDate = (date) => {
 }
 
 window.onload = () => {
+    let cardsList = [];
+
+    document.getElementById("search").addEventListener('keyup', () => {
+        const searchString = document.getElementById("search").value.trim()
+        showCardsAlunos(cardsList.filter(vacina => vacina.vacina.includes(searchString)))
+    })
 
     document.getElementById("new-vaccine-button").addEventListener('click', () => {
         localStorage.setItem('selected_vaccine', "");
@@ -79,7 +89,6 @@ window.onload = () => {
 
     const loadVaccines = () => {
         const q = query(collection(db, "vacinas"))
-        let cardsList = [];
         onSnapshot(q, (results) => {
             results.forEach((documento) => {
                 cardsList.push({
@@ -92,7 +101,7 @@ window.onload = () => {
                     proxima_vacinacao: documento.data().proxima_vacinacao,
                 })
             })
-            showCardsAlunos(cardsList)
+            showCardsAlunos(cardsList)  
         })
     }
 
@@ -108,8 +117,7 @@ const showCardsAlunos = (cardsList) => {
     }
 
     cardsList.forEach((card, index) => {
-        vaccineList.appendChild(createCard(index, card.vacina, card.dose, formatDate(card.data_vacinacao), card.url_comprovate, formatDate(card.proxima_vacinacao)));
+        vaccineList.appendChild(createCard(index, card.id, card.vacina, card.dose, formatDate(card.data_vacinacao), card.url_comprovate, formatDate(card.proxima_vacinacao)));
     })
 
-    addClickEventOnCards(cardsList);
 }
