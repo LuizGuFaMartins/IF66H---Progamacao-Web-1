@@ -88,6 +88,7 @@ window.onload = () => {
                     dose: documento.data().dose,
                     data_vacinacao: documento.data().data_vacinacao,
                     url_comprovate: documento.data().url_comprovate,
+                    path_comprovante: documento.data().path_comprovante,
                     proxima_vacinacao: documento.data().proxima_vacinacao,
                 })
             })
@@ -107,7 +108,6 @@ const showCardsAlunos = (cardsList) => {
     }
 
     cardsList.forEach((card, index) => {
-        // vaccineList.appendChild(createCard(index, card.nome, card.dose, formatDate(card.data), card.urlImagem, formatDate(card.proxima)));
         vaccineList.appendChild(createCard(index, card.vacina, card.dose, formatDate(card.data_vacinacao), card.url_comprovate, formatDate(card.proxima_vacinacao)));
     })
 
