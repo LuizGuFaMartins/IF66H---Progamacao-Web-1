@@ -1,6 +1,8 @@
 import { collection, onSnapshot, query } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js";
 import { db } from '../config/firebase.js';
 
+var cardsList = [];
+
 const createCard = (index, id, nome, dose, data, urlImagem, proxima) => {
     let card = document.createElement("div")
     card.classList.add("card-container")
@@ -31,7 +33,7 @@ const createCard = (index, id, nome, dose, data, urlImagem, proxima) => {
     let smallDose = document.createElement("small")
     smallDose.classList.add("text-muted")
     smallDose.innerHTML = proxima
-    
+
     card.addEventListener("click", () => {
         window.location.href = "../vaccine/index.html?id=" + id
     })
@@ -47,16 +49,6 @@ const createCard = (index, id, nome, dose, data, urlImagem, proxima) => {
 
     return card
 }
-
-// const addClickEventOnCards = (temporaryCards) => {
-//     const cards = document.getElementsByClassName('card-container');
-//     for (let card of cards) {
-//         card.addEventListener('click', () => {
-//             localStorage.setItem('selected_vaccine', JSON.stringify(temporaryCards[card.getAttribute('id')]));
-//             window.location.href = '../vaccine'
-//         })
-//     }
-// }
 
 const formatDate = (date) => {
     if (date.includes('Próxima dose:')) {
@@ -75,8 +67,6 @@ const formatDate = (date) => {
 }
 
 window.onload = () => {
-    let cardsList = [];
-
     document.getElementById("search").addEventListener('keyup', () => {
         const searchString = document.getElementById("search").value.trim()
         showCardsAlunos(cardsList.filter(vacina => vacina.vacina.includes(searchString)))
@@ -87,29 +77,12 @@ window.onload = () => {
         window.location.href = '../vaccine'
     })
 
-    const loadVaccines = () => {
-        const q = query(collection(db, "vacinas"))
-        onSnapshot(q, (results) => {
-            results.forEach((documento) => {
-                cardsList.push({
-                    id: documento.id,
-                    vacina: documento.data().vacina,
-                    dose: documento.data().dose,
-                    data_vacinacao: documento.data().data_vacinacao,
-                    url_comprovate: documento.data().url_comprovate,
-                    path_comprovante: documento.data().path_comprovante,
-                    proxima_vacinacao: documento.data().proxima_vacinacao,
-                })
-            })
-            showCardsAlunos(cardsList)  
-        })
-    }
-
     loadVaccines();
 }
 
 const showCardsAlunos = (cardsList) => {
     const vaccineList = document.getElementById("vaccine-list");
+    vaccineList.innerHTML = "";
 
     if (cardsList.length <= 2) {
         vaccineList.classList.remove('vaccine-box');
@@ -120,4 +93,23 @@ const showCardsAlunos = (cardsList) => {
         vaccineList.appendChild(createCard(index, card.id, card.vacina, card.dose, formatDate(card.data_vacinacao), card.url_comprovate, formatDate(card.proxima_vacinacao)));
     })
 
+}
+
+const loadVaccines = () => {
+    const q = query(collection(db, "vacinas"))
+    onSnapshot(q, (results) => {
+        results.forEach((documento) => {
+            cardsList.push({
+                id: documento.id,
+                vacina: documento.data().vacina,
+                dose: documento.data().dose,
+                data_vacinacao: documento.data().data_vacinacao,
+                url_comprovate: documento.data().url_comprovate,
+                path_comprovante: documento.data().path_comprovante,
+                proxima_vacinacao: documento.data().proxima_vacinacao,
+            })
+        })
+
+        showCardsAlunos(cardsList)
+    })
 }
